@@ -75,6 +75,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                      _Unwind_Exception* unwind_exception, _Unwind_Context* context)
 {
     printf("Personality function FTW!\n");
+    printf("Version: %d, _unwind_action %d, exceptionclass %ld, unwindexception %p, unwindcontext context %p\n",version, actions, exceptionClass, unwind_exception, context);
     return _URC_CONTINUE_UNWIND;
 }
 
