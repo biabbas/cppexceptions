@@ -16,7 +16,7 @@ void try_but_dont_catch() {
         printf("Running try_but_dont_catch::catch(Fake_Exception)\n");
     }
 
-    printf("try_but_dont_catch handled an exception and resumed execution");
+    printf("try_but_dont_catch handled an exception and resumed execution\n");
 }
 
 // And also what happens when it does
@@ -29,7 +29,7 @@ void catchit() {
         printf("Running try_but_dont_catch::catch(Fake_Exception)\n");
     }
 
-    printf("catchit handled an exception and resumed execution");
+    printf("catchit handled an exception and resumed execution\n");
 }
 
 extern "C" {
