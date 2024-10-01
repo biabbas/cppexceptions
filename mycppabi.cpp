@@ -17,7 +17,7 @@ extern "C" {
 
 void* __cxa_allocate_exception(size_t thrown_size)
 {
-    printf("alloc ex %i\n", thrown_size);
+    printf("alloc ex %li\n", thrown_size);
     if (thrown_size > EXCEPTION_BUFF_SIZE) printf("Exception too big");
     return &exception_buff;
 }
@@ -75,6 +75,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                      _Unwind_Exception* unwind_exception, _Unwind_Context* context)
 {
     printf("Personality function FTW!\n");
+    return _URC_CONTINUE_UNWIND;
 }
 
 
