@@ -160,6 +160,8 @@ _Unwind_Reason_Code __gxx_personality_v0 (
     } else if (actions & _UA_CLEANUP_PHASE) {
         printf("Personality function, cleanup\n");
 
+        // Calculate Ip before throw exception
+        uintptr_t throw_ip = _Unwind_GetIP(context) - 1;
         // Pointer to the beginning of the raw LSDA
         LSDA_ptr lsda = (uint8_t*)_Unwind_GetLanguageSpecificData(context);
 
@@ -179,6 +181,11 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 
             if (cs.lp)
             {
+                uintptr_t func_start = _Unwind_GetRegionStart(context);
+                uintptr_t try_start = func_start + cs.start;
+                uintptr_t try_end = func_start + cs.start + cs.len;
+                if(throw_ip > try_end || throw_ip < try_start) continue;
+
                 int r0 = __builtin_eh_return_data_regno(0);
                 int r1 = __builtin_eh_return_data_regno(1);
 
@@ -187,7 +194,6 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                 // we'll fix that later on
                 _Unwind_SetGR(context, r1, (uintptr_t)(1));
 
-                uintptr_t func_start = _Unwind_GetRegionStart(context);
                 _Unwind_SetIP(context, func_start + cs.lp);
                 break;
             }
